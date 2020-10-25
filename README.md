@@ -3,12 +3,14 @@
 ![APM](https://img.shields.io/apm/l/vim-mode)
 [![Generic badge](https://img.shields.io/badge/python->=3-green.svg)](https://shields.io/)
 
-Video Annotator app is an simple and easy to use tool, that helps you to serve videos to annotators
- in random order. Video Annotator Toll is written in flask.
+Video Annotator app is a simple and easy to use tool, that helps you to serve videos to annotators
+ in random order. Video Annotator Tool is written in flask.
 
- Web App Usage:
- You have to login with your email, in order to start the annotation process.
- The app will randomly peek a video that you have not annotate already to start the process of annotating.
+ ### Web App Usage:
+
+ You have to register/login with your email, in order to start the annotation process.
+ The app will randomly peek a video that you have not annotate already to begin with.
+
 
 ## Installation
 ```bash
