@@ -1,0 +1,36 @@
+{% extends "layouts.html" %}
+{% block heading %}
+<div class="navbar-header">
+                    <a class="navbar-brand" href="{{ url_for('home') }}" >VAT</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><p class="navbar-text" >{{user}}</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url_for('login')}}" >Sign In</a></li>
+                    <li><a href="{{url_for('register')}}" >Sign Up</a></li>
+                </ul>
+{% endblock %}
+
+{% block content %}
+
+        <h1>Welcome to the Video Annotator</h1>
+        <p>The purpose of the specific web app is to randomly show videos to annotators, in order to select the most
+        important timestamps over the entire video.</p>
+
+        <h2>How to use:</h2>
+        <span>
+            First you have to log in, if you have not already singed up, in order to know the annotator's profile.<br>
+            Then, you have to watch a randomly selected video and you have to annotate the most representative moments
+            to compose a video summary.<br>
+            The more video you annotate, the better dataset is made
+        </span>
+
+
+        {% if message %}
+
+        <p  class="alert alert-success" role="alert">
+            <strong>Error:</strong> {{ message }}
+            </p>
+      {% endif %}
+{% endblock %}

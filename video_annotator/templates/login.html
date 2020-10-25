@@ -1,0 +1,31 @@
+{% extends "layouts.html" %}
+{% block heading %}
+<div class="navbar-header">
+                    <a class="navbar-brand" href="{{ url_for('home') }}" >VAT</a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('login')}}" >Sign In</a></li>
+                    <li><a href="{{ url_for('register')}}" >Sign Up</a></li>
+                </ul>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Welcome to the Video Annotator</h1>
+    <p>Please Sign in </p>
+    <form action="" method="POST">
+        <div class="col">
+            <input type="text" name="email" placeholder="Email"  value="{{request.form.email}}" >
+        </div>
+        <div class="col">
+            <button class='loginbtn'type="submit" >Sign In </button>
+        </div>
+    </form>
+    {% if error %}
+
+    <p  class="alert alert-danger" role="alert">
+        <strong>Error:</strong> {{ error }}
+        </p>
+  {% endif %}
+{% endblock %}

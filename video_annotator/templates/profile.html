@@ -1,0 +1,30 @@
+{% extends "layouts.html" %}
+{% block heading %}
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ url_for('profile') }}" >Welcome</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li><p class="navbar-text" >{{ username }}</li>
+        {% if num_videos > already_annotated %}
+            <li><a href="{{ url_for('annotate')}}"> Annotate</a></li>
+        {% endif %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ url_for('logout')}}" >Logout</a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+        <h1>{{username }} welcome to the Video Annotator Tool.</h1>
+        <br>
+        <h4>The entire dataset consists of {{num_videos}} videos by now.</h4>
+        <h4>Till now, {{ username }} you have annotate: {{already_annotated}} videos.</h4>
+        <span>
+            {% if num_videos == already_annotated %}
+            <p>Thank you {{username}} for your time, you have contributed to the video annotation.</p>
+            {% elif num_videos > already_annotated %}
+            <p>Almost Done! Please continue.</p>
+            <p>Go to the Annotate tab to start annotating videos.</p>
+            <p>Have a nice annotation time {{username}}.</p>
+            {% endif %}
+        </span>
+{% endblock %}

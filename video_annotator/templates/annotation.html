@@ -1,0 +1,85 @@
+{% extends "layouts.html" %}
+{% block heading %}
+<script>
+var vid = document.getElementById("myVideo");
+
+function getCurTime() {
+  return vid.currentTime;
+}
+
+function getLength() {
+  return vid.length;
+}
+function proceed(){
+    if (getCurTime() - getLength() <= 0){
+        console.log()
+    }
+}
+
+</script>
+<div class="navbar-header">
+                    <a class="navbar-brand" href="{{ url_for('profile') }}" >Welcome</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><p class="navbar-text" >{{username}}</li>
+                    <li><a href="{{ url_for('annotate')}}"> Annotate</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('logout')}}" >Logout</a></li>
+                </ul>
+            </div>
+{% endblock %}
+{% block content %}
+<h2>Annotating Video</h2>
+<p>Video Name: {{filename.split('/')[1]}}</p>
+<div class="container">
+    <div class="row" >
+        <div classs="col">
+            <video id="video" class="embed-responsive-item"  controls>
+                <source src={{ url_for("static", filename=filename) }} type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col col-lg-2">
+            <label for="fname">Starting:</label>
+        </div>
+        <div class="col col-lg-2">
+            <label for="fname">Ending:</label>
+        </div>
+
+    </div>
+
+        <div class="row">
+                <div class="col col-lg-2">
+                    <!-- <label for="fname">Minute:</label> -->
+                    <input type="number" id="start-minute" class="start-minute" min="0" max="60">
+                    <label for="fname"><strong>:</strong></label>
+                    <input type="number" id="start-second" class="start-second" min="0" max="60">
+                </div>
+                <div class="col col-lg-2">
+                    <!-- <label for="fname">Minute:</label> -->
+                    <input type="number" id="end-minute" class="end-minute" min="0" max="60">
+                    <label for="fname"><strong>:</strong></label>
+                    <input type="number" id="end-second" class="end-second" min="0" max="60">
+                </div>
+                <div class="col col-lg-1">
+                    <button class='addButton' >Add</button>
+                </div>
+                <div class="col col-lg-2">
+                    <span><strong>Previous Highlights</strong></span>
+                    <p id="current_annotated"></p>
+                </div>
+                <form method="post" action="/finish">
+                    <div class="col col-lg-1">
+                        <button type="submit" class="btn btn-primary" onclick="getCurTime()">Finish Annotation</button>
+                    </div>
+                </form>
+
+        </div>
+    </div>
+    <script type="text/javascript" src={{ url_for("static", filename="refresh.js") }} ></script>
+{% endblock %}
