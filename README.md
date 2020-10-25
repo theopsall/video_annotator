@@ -1,7 +1,7 @@
-# video_annotator
-Video Annotator Web App
+# Video Annotator Web App Tool
 ---
 ![APM](https://img.shields.io/apm/l/vim-mode)
+[![Generic badge](https://img.shields.io/badge/python->=3-green.svg)](https://shields.io/)
 
 Video Annotator app is an simple and easy to use tool, that helps you to serve videos to annotators
  in random order. Video Annotator Toll is written in flask.
