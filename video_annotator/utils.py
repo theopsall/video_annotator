@@ -161,3 +161,12 @@ def add_annotation(user, video, data)->None:
     videopath = os.path.join(dirname, video + '.csv')
     df = pd.DataFrame(data=data, columns=['Start Minutes', 'Start Seconds', 'End Minutes', 'End Seconds'])
     df.to_csv(videopath, index=False)
+
+def create_directorys():
+    """
+    Check if the directories exists, otherwise it creates the VIDEOS and ANNOTATED directories.
+    """
+    if not os.path.isdir(ANNOTATED):
+        os.mkdir(ANNOTATED)
+    if not os.path.isdir(VIDEOS):
+        os.mkdir(VIDEOS)
