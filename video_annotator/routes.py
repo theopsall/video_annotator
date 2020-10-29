@@ -5,8 +5,9 @@ from video_annotator import app
 from video_annotator import utils
 from video_annotator.user import User
 
-message = None # if the annotation was successfull
+message = None  # if the annotation was successful
 user = User()
+
 
 @app.route('/')
 @app.route('/home')
@@ -21,25 +22,24 @@ def home():
     return render_template("index.html", title='Home VAT', message=message)
 
 
-
-@app.route('/annotate', methods=['GET','POST'])
+@app.route('/annotate', methods=['GET', 'POST'])
 def annotate():
     global message
 
     message = None
-    if (user.get_email() is not None):
-        if (user.get_total_videos() > user.get_annotated()):
+    if user.get_email() is not None:
+        if user.get_total_videos() > user.get_annotated():
             start_minute = request.form.get('start_minute')
             start_second = request.form.get('start_second')
             end_minute = request.form.get('end_minute')
             end_second = request.form.get('end_second')
-            if (start_minute != None and start_second != None and end_minute != None and end_second != None):
+            if start_minute is not None and start_second is not None and end_minute is not None and end_second is not None:
                 user.add_annotations([start_minute, start_second, end_minute, end_second])
             user.set_video()
             return render_template('annotation.html',
-                                title="Video Annotator Tool",
-                                username=user.get_email(),
-                                filename = 'Videos' + os.sep + user.get_video())
+                                   title="Video Annotator Tool",
+                                   username=user.get_email(),
+                                   filename='Videos' + os.sep + user.get_video())
         else:
 
             return redirect("/profile")
@@ -59,14 +59,14 @@ def finish():
         return redirect("/profile")
 
 
-@app.route('/profile', methods=['POST','GET'])
+@app.route('/profile', methods=['POST', 'GET'])
 def profile():
     if user.get_email() is not None:
         return render_template('profile.html',
-                           title="Annotator's Profile",
-                           username=user.get_email(),
-                           num_videos = user.get_total_videos(),
-                           already_annotated = user.get_annotated())
+                               title="Annotator's Profile",
+                               username=user.get_email(),
+                               num_videos=user.get_total_videos(),
+                               already_annotated=user.get_annotated())
     return render_template("index.html", title='Home VAT')
 
 
@@ -78,13 +78,13 @@ def login():
         if email in utils.get_users():
             user.login(email)
             return render_template('profile.html',
-                           title="Annotator's Profile",
-                           username=user.get_email(),
-                           num_videos = user.get_total_videos(),
-                           already_annotated = user.get_annotated())
+                                   title="Annotator's Profile",
+                                   username=user.get_email(),
+                                   num_videos=user.get_total_videos(),
+                                   already_annotated=user.get_annotated())
         else:
             error = "User with email {} does not exist. Please check your email or Sign Up".format(email)
-            return render_template("login.html", title="Sign in to VAT", error = error)
+            return render_template("login.html", title="Sign in to VAT", error=error)
 
     return render_template("login.html", title="Sign in to VAT", error=error)
 
@@ -94,18 +94,16 @@ def register():
     error = None
     if request.method == "POST":
         email = request.form['email']
-        print(utils.get_users())
-        print(email)
         if email in utils.get_users():
             error = "User with email {} already exists. Please check your email or Login in".format(email)
-            return render_template("register.html", title="Sign in to VAT", error = error)
-        else :
+            return render_template("register.html", title="Sign in to VAT", error=error)
+        else:
             user.register(email)
             return render_template('profile.html',
-                           title="Annotator's Profile",
-                           username=user.get_email(),
-                           num_videos = user.get_total_videos(),
-                           already_annotated = user.get_annotated())
+                                   title="Annotator's Profile",
+                                   username=user.get_email(),
+                                   num_videos=user.get_total_videos(),
+                                   already_annotated=user.get_annotated())
 
     return render_template("register.html", title="Sign Up to VAT", error=error)
 
@@ -114,7 +112,6 @@ def register():
 def logout():
     user.logout()
     return render_template("index.html", title="HOME VAT")
-
 
 
 @app.errorhandler(404)
@@ -129,4 +126,3 @@ def not_found(e):
     """
 
     return render_template("404.html")
-

@@ -6,19 +6,21 @@ import pandas as pd
 import random
 from video_annotator.config import VIDEOS, ANNOTATED, USERS
 
-def get_users()->list:
+
+def get_users() -> list:
     """
-    Get Users from userfile
+    Get Users from user file
 
     Returns:
-        list: List of registe users
+        list: List of registered users
     """
     with open(USERS, 'r') as f:
         users = [line.split('\n')[0] for line in f.readlines()]
 
     return users
 
-def add_user(user)->None:
+
+def add_user(user) -> None:
     """
     Insert user to the database
 
@@ -28,7 +30,8 @@ def add_user(user)->None:
     with open(USERS, 'a') as f:
         f.write(user + '\n')
 
-def add_video(user, video_name)->None:
+
+def add_video(user, video_name) -> None:
     """
     Add video to the user annotated log file
 
@@ -40,21 +43,21 @@ def add_video(user, video_name)->None:
         f.write(video_name + '\n')
 
 
-def make_annotation_file(user)->None:
+def make_annotation_file(user) -> None:
     """
-    Make annotaion file containg the annotated videos name by the current user
+    Make annotation file containing the annotated videos name by the current user
 
     Args:
         user (str): Name of the current user annotator
     """
     user_path = os.path.join(ANNOTATED, user)
-    with open (user_path + '.txt', 'w') as f:
+    with open(user_path + '.txt', 'w') as f:
         pass
 
 
-def make_annotation_directory(user)->None:
+def make_annotation_directory(user) -> None:
     """
-    Make annotaion directory of the user
+    Make annotation directory of the user
 
     Args:
         user (str): Name of the current user annotator
@@ -62,7 +65,8 @@ def make_annotation_directory(user)->None:
     user_path = os.path.join(ANNOTATED, user)
     os.mkdir(user_path)
 
-def get_videos()->list:
+
+def get_videos() -> list:
     """
     Get the total videos in the database
 
@@ -71,7 +75,8 @@ def get_videos()->list:
     """
     return os.listdir(VIDEOS)
 
-def num_videos()->int:
+
+def num_videos() -> int:
     """
     Get the total number of the videos in the database
 
@@ -80,7 +85,8 @@ def num_videos()->int:
     """
     return len(get_videos())
 
-def annotated(username)->list:
+
+def annotated(username) -> list:
     """
     Get the annotated video names of the current user
 
@@ -94,19 +100,21 @@ def annotated(username)->list:
     name = os.path.join(ANNOTATED, username + '.txt')
     return read_txt(name)
 
-def num_annotated(username)->int:
+
+def num_annotated(username) -> int:
     """
-    Total number of annoteated videos from the current username
+    Total number of annotated videos from the current username
 
     Args:
         username (str): User name annotator
 
     Returns:
-        int: Number of total anotated videos
+        int: Number of total annotated videos
     """
     return len(annotated(username))
 
-def read_txt(path)->list:
+
+def read_txt(path) -> list:
     """
     Reading the txt file line by line
 
@@ -120,7 +128,8 @@ def read_txt(path)->list:
         data = [line.split('\n')[0] for line in f.readlines()]
     return data
 
-def get_difference(username)->list:
+
+def get_difference(username) -> list:
     """
     Get the between the total videos and the annotated videos of the current user.
 
@@ -135,7 +144,7 @@ def get_difference(username)->list:
     return diff
 
 
-def get_random_video(diff)->str:
+def get_random_video(diff) -> str:
     """
     Get a random video to be annotated
 
@@ -148,7 +157,7 @@ def get_random_video(diff)->str:
     return random.choice(diff)
 
 
-def add_annotation(user, video, data)->None:
+def add_annotation(user, video, data) -> None:
     """
     Save annotations to the csv file for the current user.
 
@@ -158,11 +167,12 @@ def add_annotation(user, video, data)->None:
         data (list): List of the annotated timestamps for the specific video
     """
     dirname = os.path.join(ANNOTATED, user)
-    videopath = os.path.join(dirname, video + '.csv')
+    video_path = os.path.join(dirname, video + '.csv')
     df = pd.DataFrame(data=data, columns=['Start Minutes', 'Start Seconds', 'End Minutes', 'End Seconds'])
-    df.to_csv(videopath, index=False)
+    df.to_csv(video_path, index=False)
 
-def create_directorys():
+
+def create_directories():
     """
     Check if the directories exists, otherwise it creates the VIDEOS and ANNOTATED directories.
     """
