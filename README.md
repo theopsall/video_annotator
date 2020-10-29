@@ -9,7 +9,7 @@ Video Annotator app is a simple and easy to use tool, that helps you to serve vi
  ### Web App Usage:
 
  You have to register/login with your email, in order to start the annotation process.
- The app will randomly peek a video that you have not annotate already to begin with.
+ The app will randomly peek a video that you have not already annotate to begin with.
 
 
 ## Installation
