@@ -53,7 +53,7 @@ def finish():
         # save annotations
         message = 'Congrats you have successfully Annoted {0}'.format(user.get_video())
         user.save_annotations()
-        return render_template("index.html", title='Home VAT', message=message)
+        return render_template("profile.html", title='Home VAT', message=message)
     else:
 
         return redirect("/profile")
