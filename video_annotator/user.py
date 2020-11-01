@@ -64,8 +64,8 @@ class User():
         """
         utils.add_annotation(self._email, self._videoname, self._annotations)
         utils.add_video(self._email, self._videoname)
-        self._annotattions = []
-        self._videoname = None
+        self.finish()
+        self.update_annotated()
 
     def logout(self):
         """
@@ -113,3 +113,12 @@ class User():
             int: The total number of videos
         """
         return self._total_videos
+
+    def update_annotated(self):
+        """
+        Updates the annotated list without login on the server
+
+        Returns:
+
+        """
+        self._annotated = utils.num_annotated(self._email)
