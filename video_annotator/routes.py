@@ -51,6 +51,7 @@ def finish():
         # save annotations
         message = 'Congrats you have successfully Annotated {0}'.format(user.get_video())
         user.save_annotations()
+
         return render_template('profile.html',
                                title="Annotator's Profile",
                                username=user.get_email(),

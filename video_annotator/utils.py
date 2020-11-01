@@ -31,15 +31,16 @@ def add_user(user) -> None:
         f.write(user + '\n')
 
 
-def add_video(user, video_name) -> None:
+def add_video(email, video_name) -> None:
     """
     Add video to the user annotated log file
 
     Args:
-        user (str): Name of the current user annotator
+        email (str): Name of the current user annotator
         video_name (str): Name of the video that have been annotated
     """
-    with open(USERS, 'a') as f:
+    user = os.path.join(ANNOTATED, email + '.txt')
+    with open(user, 'a') as f:
         f.write(video_name + '\n')
 
 

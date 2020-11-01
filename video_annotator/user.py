@@ -12,7 +12,6 @@ class User():
         self._videoname = None
         self._total_videos = utils.num_videos()
 
-
     def login(self, email):
         """
         Login user to the base
@@ -44,7 +43,6 @@ class User():
         """
         self._annotations.append(data)
 
-
     def finish(self):
         """
         After the annotation of the video, resets the annotations data and the video name
@@ -65,6 +63,7 @@ class User():
         Saves the annotations on the base
         """
         utils.add_annotation(self._email, self._videoname, self._annotations)
+        utils.add_video(self._email, self._videoname)
         self._annotattions = []
         self._videoname = None
 
