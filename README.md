@@ -1,12 +1,15 @@
 # Video Annotator Web App Tool
+Annotate important timestamps of a video
 ---
 ![APM](https://img.shields.io/apm/l/vim-mode)
 [![Generic badge](https://img.shields.io/badge/python->=3-green.svg)](https://shields.io/)
 
+About
+----
 Video Annotator app is a simple and easy to use tool, that helps you to serve videos to annotators
  in random order. Video Annotator Tool is written in flask.
 
- ### Web App Usage:
+ ## Web App Usage:
 
  You have to register/login with your email, in order to start the annotation process.
  The app will randomly peek a video that you have not already annotate to begin with.
@@ -14,10 +17,12 @@ Video Annotator app is a simple and easy to use tool, that helps you to serve vi
 
 ## Installation
 ```bash
+git clone https://github.com/theopsall/video_annotator.git
+cd video_annotator
 pip install -r requirements.txt
 ```
 
-## Start Annotator Tool:
+## Running:
 ```bash
 python3 run.py
 ```
