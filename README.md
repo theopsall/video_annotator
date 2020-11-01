@@ -1,6 +1,6 @@
 # Video Annotator Web App Tool
 Annotate important timestamps of a video
----
+
 ![APM](https://img.shields.io/apm/l/vim-mode)
 [![Generic badge](https://img.shields.io/badge/python->=3-green.svg)](https://shields.io/)
 
