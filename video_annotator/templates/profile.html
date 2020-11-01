@@ -27,4 +27,12 @@
             <p>Have a nice annotation time {{username}}.</p>
             {% endif %}
         </span>
+
+
+        {% if message %}
+
+        <p  class="alert alert-success" role="alert">
+            <strong>Message: </strong> {{ message }}
+            </p>
+      {% endif %}
 {% endblock %}

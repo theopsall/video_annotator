@@ -5,7 +5,7 @@ from video_annotator import app
 from video_annotator import utils
 from video_annotator.user import User
 
-message = None  # if the annotation was successful
+
 user = User()
 
 
@@ -18,15 +18,13 @@ def home():
     Returns:
         [type]: [description]
     """
-    message = None
-    return render_template("index.html", title='Home VAT', message=message)
+
+    return render_template("index.html", title='Home VAT')
 
 
 @app.route('/annotate', methods=['GET', 'POST'])
 def annotate():
-    global message
 
-    message = None
     if user.get_email() is not None:
         if user.get_total_videos() > user.get_annotated():
             start_minute = request.form.get('start_minute')
@@ -51,22 +49,33 @@ def annotate():
 def finish():
     if request.method == 'POST':
         # save annotations
-        message = 'Congrats you have successfully Annoted {0}'.format(user.get_video())
+        message = 'Congrats you have successfully Annotated {0}'.format(user.get_video())
         user.save_annotations()
-        return render_template("profile.html", title='Home VAT', message=message)
+        return render_template('profile.html',
+                               title="Annotator's Profile",
+                               username=user.get_email(),
+                               num_videos=user.get_total_videos(),
+                               already_annotated=user.get_annotated(),message = message)
     else:
-
-        return redirect("/profile")
+        message = 'Video {0} failed to be annotated'.format(user.get_video())
+        return render_template('profile.html',
+                               title="Annotator's Profile",
+                               username=user.get_email(),
+                               num_videos=user.get_total_videos(),
+                               already_annotated=user.get_annotated(),
+                               message=message)
 
 
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
     if user.get_email() is not None:
+        message = None
         return render_template('profile.html',
                                title="Annotator's Profile",
                                username=user.get_email(),
                                num_videos=user.get_total_videos(),
-                               already_annotated=user.get_annotated())
+                               already_annotated=user.get_annotated(),
+                               message=message)
     return render_template("index.html", title='Home VAT')
 
 
