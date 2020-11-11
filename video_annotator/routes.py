@@ -123,6 +123,8 @@ def register():
             session["username"] = email
             utils.add_user(email)
             utils.make_annotation_file(email)
+            utils.make_annotation_directory(email)
+
             return render_template('profile.html',
                                    title="Annotator's Profile",
                                    username=email,
