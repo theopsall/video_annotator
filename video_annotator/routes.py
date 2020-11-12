@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, url_for, redirect, flash, ses
 from video_annotator.config import VIDEOS, ANNOTATED
 from video_annotator import app
 from video_annotator import utils
-# from video_annotator.user import User
 
 
 @app.route('/')
@@ -22,7 +21,7 @@ def home():
 def annotate():
 
     if "username" in session:
-        if utils.get_videos() > utils.annotated(session['username']):
+        if (len(utils.get_videos()) > len(utils.annotated(session['username']))):
             diff = utils.get_difference(session['username'])
             video = utils.get_random_video(diff)
             session['video'] = video
@@ -55,7 +54,7 @@ def finish():
         # save annotations
         message = 'Congrats you have successfully Annotated {0}'.format(session["video"])
         data = session["data"]
-        composite_list = [data[x:x+4] for x in range(0, len(data),4)]        
+        composite_list = [data[x:x+4] for x in range(0, len(data),4)]
         utils.add_annotation(session['username'], session['video'], composite_list )
         utils.add_video(session['username'], session['video'])
 
@@ -86,7 +85,7 @@ def profile():
                                 username=session["username"],
                                 num_videos=utils.num_videos(),
                                 already_annotated=utils.num_annotated(session["username"]))
-       
+
     return render_template("index.html", title='Home VAT')
 
 
