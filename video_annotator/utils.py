@@ -67,14 +67,22 @@ def make_annotation_directory(user) -> None:
     os.mkdir(user_path)
 
 
-def get_videos() -> list:
+def get_videos(directory=VIDEOS) -> list:
     """
-    Get the total videos in the database
+        Crawling videos from Videos subdirectories
+        Args:
+            directory (str) : The directory to crawl, default is set to the Videos from static directory
+        Returns:
+            tree (list)     : A list with all the filepaths
+    """
+    tree = []
+    subdirs = [folder[0] for folder in os.walk(directory)]
 
-    Returns:
-        list: List of the Videos
-    """
-    return os.listdir(VIDEOS)
+    for subdir in subdirs:
+        files = next(os.walk(subdir))[2]
+        for _file in files:
+            tree.append(os.path.join(subdir, _file))
+    return tree
 
 
 def num_videos() -> int:

@@ -24,7 +24,11 @@ def annotate():
         if (len(utils.get_videos()) > len(utils.annotated(session['username']))):
             diff = utils.get_difference(session['username'])
             video = utils.get_random_video(diff)
-            session['video'] = video
+            video = video.split(os.sep)[-2:]
+            video = os.path.join(*video)
+            video_category = video.split(os.sep)[0]
+            video_name = video.split(os.sep)[-1]
+            session['video'] = "{0}_{1}".format(video_category, video_name)
             start_minute = request.form.get('start_minute')
             start_second = request.form.get('start_second')
             end_minute = request.form.get('end_minute')
@@ -34,14 +38,15 @@ def annotate():
 
                 if "data" in session:
                     session["data"] = session["data"] + [start_minute, start_second, end_minute, end_second]
-                    print("Session:",session["data"])
                 else:
                     session["data"] = [start_minute, start_second, end_minute, end_second]
 
             return render_template('annotation.html',
                                    title="Video Annotator Tool",
                                    username=session['username'],
-                                   filename='Videos' + os.sep + session['video'])
+                                   category=video_category,
+                                   video_name=video_name,
+                                   filename='Videos' + os.sep + video)
         else:
             return redirect("/profile")
     else:
