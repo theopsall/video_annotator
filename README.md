@@ -27,6 +27,10 @@ pip install -r requirements.txt
 python3 run.py
 ```
 
+## Production deployment
+In case you want production deploymment you can find the source code located at the server_ready branch of this repo.
+
+
 Tree Structure
 ---
 ```
@@ -39,4 +43,6 @@ Under the ./users direcroty you can find the users.txt file which contains the e
 
 Under the static folder you can find the Annotated directory which contains a {email}.txt file for each user with the annotated videos and a directory for each user with the labels in .csv for each video that have been annotated from the user.
 
-Under the static folder you can find the Video directory which contains the dataset.
+Under the static folder you can find the Video directory which contains the dataset seperated in class subdirectories.
+
+
