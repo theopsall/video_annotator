@@ -28,7 +28,7 @@ python3 run.py
 ```
 
 ## Production deployment
-In case you want production deploymment you can find the source code located at the server_ready branch of this repo.
+In case you want production deploymment you can find the source code located at the [server_ready](https://github.com/theopsall/video_annotator/tree/server_ready) branch of this repo.
 
 
 Tree Structure
