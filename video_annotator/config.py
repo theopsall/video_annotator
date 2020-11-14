@@ -1,6 +1,3 @@
-import os
-
-PATH = os.getcwd()
-VIDEOS = os.path.join(PATH, 'static', 'Videos')
-ANNOTATED = os.path.join(PATH, 'static', 'Annotated')
-USERS = os.path.join(PATH, '.users', 'users.txt')
+VIDEOS = "/var/www/video_annotator/video_annotator/static/Videos"
+ANNOTATED = "/var/www/video_annotator/video_annotator/static/Annotated"
+USERS = "/var/www/video_annotator/video_annotator/.users/users.txt"

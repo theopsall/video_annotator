@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect, flash, session
-from config import VIDEOS, ANNOTATED
-import utils
+from video_annotator.config import VIDEOS, ANNOTATED
+from video_annotator import utils
 
 utils.create_directories()
 app = Flask(__name__)
