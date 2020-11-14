@@ -157,9 +157,3 @@ def not_found(e):
     """
 
     return render_template("404.html")
-
-
-if __name__ == "__main__":
-    app.secret_key = 'a2f8a7fa-fb61-11ea-8c89-0f4248d2074f'
-    
-    app.run()
