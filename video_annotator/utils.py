@@ -31,15 +31,15 @@ def add_user(user) -> None:
         f.write(user + '\n')
 
 
-def add_video(email, video_name) -> None:
+def add_video(nickname, video_name) -> None:
     """
     Add video to the user annotated log file
 
     Args:
-        email (str): Name of the current user annotator
+        nickname (str): Name of the current user annotator
         video_name (str): Name of the video that have been annotated
     """
-    user = os.path.join(ANNOTATED, email + '.txt')
+    user = os.path.join(ANNOTATED, nickname + '.txt')
     with open(user, 'a') as f:
         f.write(video_name + '\n')
 
@@ -95,32 +95,32 @@ def num_videos() -> int:
     return len(get_videos())
 
 
-def annotated(username) -> list:
+def annotated(nickname) -> list:
     """
     Get the annotated video names of the current user
 
     Args:
-        username (str): User name of the current annotator
+        nickname (str): User name of the current annotator
 
     Returns:
         list: List of the video names
     """
 
-    name = os.path.join(ANNOTATED, username + '.txt')
+    name = os.path.join(ANNOTATED, nickname + '.txt')
     return read_txt(name)
 
 
-def num_annotated(username) -> int:
+def num_annotated(nickname) -> int:
     """
-    Total number of annotated videos from the current username
+    Total number of annotated videos from the current nickname
 
     Args:
-        username (str): User name annotator
+        nickname (str): User name annotator
 
     Returns:
         int: Number of total annotated videos
     """
-    return len(annotated(username))
+    return len(annotated(nickname))
 
 
 def read_txt(path) -> list:
@@ -138,17 +138,17 @@ def read_txt(path) -> list:
     return data
 
 
-def get_difference(username) -> list:
+def get_difference(nickname) -> list:
     """
     Get the between the total videos and the annotated videos of the current user.
 
     Args:
-        username (str): User name of the current user
+        nickname (str): User name of the current user
 
     Returns:
         list: List of the videos that have not been annotated from the current user
     """
-    diff = list(set(get_videos()) - set(annotated(username)))
+    diff = list(set(get_videos()) - set(annotated(nickname)))
 
     return diff
 
