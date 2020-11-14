@@ -4,7 +4,7 @@ Helper functions
 import os
 import pandas as pd
 import random
-from video_annotator.config import VIDEOS, ANNOTATED, USERS
+from config import VIDEOS, ANNOTATED, USERS
 
 
 def get_users() -> list:
