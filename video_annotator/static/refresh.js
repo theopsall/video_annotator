@@ -8,6 +8,14 @@ $(document).ready(function(){
     var end_minute = $('.end-minute').val();
     var end_second = $('.end-second').val();
 
+    if(start_minute=='' && start_second=='' || end_minute=='' && end_second=='' ){
+        console.log("Values are Null");
+        return;
+    }
+    $('.start-minute').val('');
+    $('.start-second').val('');
+    $('.end-minute').val('');
+    $('.end-second').val('');
     req = $.ajax({
         url: '/annotate',
         type: 'POST',

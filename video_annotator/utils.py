@@ -182,7 +182,8 @@ def add_annotation(user, video, data) -> None:
     dst_class = video.split(os.sep)[0]
     dst_dir = os.path.join(dirname, dst_class)
     if not os.path.exists(dst_dir):
-        os.mkdir(dst_dir)
+        print(dst_dir)
+        os.makedirs(dst_dir)
     video_path = os.path.join(dst_dir, video.split(os.sep)[1] + '.csv')
     df = pd.DataFrame(data=data, columns=['Start Minutes', 'Start Seconds', 'End Minutes', 'End Seconds'])
     df.to_csv(video_path, index=False)
