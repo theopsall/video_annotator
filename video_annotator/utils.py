@@ -10,7 +10,6 @@ from video_annotator.config import VIDEOS, ANNOTATED, USERS
 def get_users() -> list:
     """
     Get Users from user file
-
     Returns:
         list: List of registered users
     """
@@ -23,7 +22,6 @@ def get_users() -> list:
 def add_user(user) -> None:
     """
     Insert user to the database
-
     Args:
         user (str): Name of the user to be added
     """
@@ -34,7 +32,6 @@ def add_user(user) -> None:
 def add_video(nickname, video_name) -> None:
     """
     Add video to the user annotated log file
-
     Args:
         nickname (str): Name of the current user annotator
         video_name (str): Name of the video that have been annotated
@@ -47,7 +44,6 @@ def add_video(nickname, video_name) -> None:
 def make_annotation_file(user) -> None:
     """
     Make annotation file containing the annotated videos name by the current user
-
     Args:
         user (str): Name of the current user annotator
     """
@@ -59,7 +55,6 @@ def make_annotation_file(user) -> None:
 def make_annotation_directory(user) -> None:
     """
     Make annotation directory of the user
-
     Args:
         user (str): Name of the current user annotator
     """
@@ -88,7 +83,6 @@ def get_videos(directory=VIDEOS) -> list:
 def num_videos() -> int:
     """
     Get the total number of the videos in the database
-
     Returns:
         int: Number of the total videos in the database
     """
@@ -98,10 +92,8 @@ def num_videos() -> int:
 def annotated(nickname) -> list:
     """
     Get the annotated video names of the current user
-
     Args:
         nickname (str): User name of the current annotator
-
     Returns:
         list: List of the video names
     """
@@ -113,10 +105,8 @@ def annotated(nickname) -> list:
 def num_annotated(nickname) -> int:
     """
     Total number of annotated videos from the current nickname
-
     Args:
         nickname (str): User name annotator
-
     Returns:
         int: Number of total annotated videos
     """
@@ -126,10 +116,8 @@ def num_annotated(nickname) -> int:
 def read_txt(path) -> list:
     """
     Reading the txt file line by line
-
     Args:
         path (str): Path name of the txt file to read
-
     Returns:
         list: List of the data from the text file
     """
@@ -141,14 +129,14 @@ def read_txt(path) -> list:
 def get_difference(nickname) -> list:
     """
     Get the between the total videos and the annotated videos of the current user.
-
     Args:
         nickname (str): User name of the current user
-
     Returns:
         list: List of the videos that have not been annotated from the current user
     """
-    diff = list(set(get_videos()) - set(annotated(nickname)))
+    videos = [vid.split(os.sep)[-2:] for vid in get_videos()]
+    videos = [os.path.join(*vid) for vid in videos]
+    diff = list(set(videos) - set(annotated(nickname)))
 
     return diff
 
@@ -156,10 +144,8 @@ def get_difference(nickname) -> list:
 def get_random_video(diff) -> str:
     """
     Get a random video to be annotated
-
     Args:
         diff (list): List of the videos that have not been annotated from the current user
-
     Returns:
         str: File name of the random video to be annotated
     """
@@ -169,14 +155,18 @@ def get_random_video(diff) -> str:
 def add_annotation(user, video, data) -> None:
     """
     Save annotations to the csv file for the current user.
-
     Args:
         user (str): User name of the current user
         video (str): Video name to be annotated
         data (list): List of the annotated timestamps for the specific video
     """
+
     dirname = os.path.join(ANNOTATED, user)
-    video_path = os.path.join(dirname, video + '.csv')
+    dst_class = video.split(os.sep)[0]
+    dst_dir = os.path.join(dirname, dst_class)
+    if not os.path.exists(dst_dir):
+        os.mkdir(dst_dir)
+    video_path = os.path.join(dst_dir, video.split(os.sep)[1] + '.csv')
     df = pd.DataFrame(data=data, columns=['Start Minutes', 'Start Seconds', 'End Minutes', 'End Seconds'])
     df.to_csv(video_path, index=False)
 

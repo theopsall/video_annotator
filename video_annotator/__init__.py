@@ -1,10 +1,13 @@
 import os
+from flask_socketio import SocketIO
 from flask import Flask, render_template, request, url_for, redirect, flash, session
 from video_annotator.config import VIDEOS, ANNOTATED
 from video_annotator import utils
 
 utils.create_directories()
 app = Flask(__name__)
+
+socketio = SocketIO(app)
 
 @app.route('/')
 @app.route('/home')
@@ -24,24 +27,33 @@ def annotate():
     if "nickname" in session:
         if (len(utils.get_videos()) > len(utils.annotated(session['nickname']))):
             diff = utils.get_difference(session['nickname'])
+
             video = utils.get_random_video(diff)
-            video = video.split(os.sep)[-2:]
-            video = os.path.join(*video)
+
+            #video = os.path.join(*video)
             video_category = video.split(os.sep)[0]
             video_name = video.split(os.sep)[-1]
-            session['video'] = "{0}_{1}".format(video_category, video_name)
+            session['video'] = "{0}{1}{2}".format(video_category,os.sep,video_name)
+
             start_minute = request.form.get('start_minute')
             start_second = request.form.get('start_second')
             end_minute = request.form.get('end_minute')
             end_second = request.form.get('end_second')
 
+            is_reloaded = request.form.get("is_reloaded")
+
+            if is_reloaded:
+                session.pop("data", None)
+
             if start_minute is not None and start_second is not None and end_minute is not None and end_second is not None:
 
                 if "data" in session:
-                    session["data"] = session["data"] + [start_minute, start_second, end_minute, end_second]
+                    data = session["data"]
+                    data.append([start_minute, start_second, end_minute, end_second])
+                    session["data"] = data
                 else:
-                    session["data"] = [start_minute, start_second, end_minute, end_second]
-
+                    session["data"] = [[start_minute, start_second, end_minute, end_second]]
+                # print(session['data'])
             return render_template('annotation.html',
                                    title="Video Annotator Tool",
                                    nickname=session['nickname'],
@@ -59,13 +71,11 @@ def finish():
     if request.method == 'POST':
         # save annotations
         message = 'Congrats you have successfully Annotated {0}'.format(session["video"])
-        data = session["data"]
-        composite_list = [data[x:x+4] for x in range(0, len(data),4)]
-        utils.add_annotation(session['nickname'], session['video'], composite_list )
+        utils.add_annotation(session['nickname'], session['video'], session['data'] )
         utils.add_video(session['nickname'], session['video'])
 
         session.pop('video', None)
-        session.pop('video', None)
+        session.pop('data', None)
 
         return render_template('profile.html',
                                 title="Annotator's Profile",
@@ -74,7 +84,7 @@ def finish():
                                 already_annotated=utils.num_annotated(session["nickname"]),
                                 message = message)
     else:
-        message = 'Video {0} failed to be annotated'.format(user.get_video())
+        message = 'Video {0} failed to be annotated'.format(session['video'])
         return render_template('profile.html',
                                 title="Annotator's Profile",
                                 nickname=session["nickname"],
@@ -142,8 +152,13 @@ def register():
 def logout():
     session.pop('nickname', None)
     session.pop('video',None)
+    session.pop('data',None)
     return render_template("index.html", title="HOME VAT")
 
+@socketio.on('disconnect')
+def disconnect_user():
+    session.pop('video',None)
+    session.pop('data',None)
 
 @app.errorhandler(404)
 def not_found(e):
