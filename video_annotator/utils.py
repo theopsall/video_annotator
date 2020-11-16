@@ -148,7 +148,9 @@ def get_difference(nickname) -> list:
     Returns:
         list: List of the videos that have not been annotated from the current user
     """
-    diff = list(set(get_videos()) - set(annotated(nickname)))
+    videos = [vid.split(os.sep)[-2:] for vid in get_videos()]
+    videos = [os.path.join(*vid) for vid in videos]
+    diff = list(set(videos) - set(annotated(nickname)))
 
     return diff
 
@@ -175,8 +177,13 @@ def add_annotation(user, video, data) -> None:
         video (str): Video name to be annotated
         data (list): List of the annotated timestamps for the specific video
     """
+
     dirname = os.path.join(ANNOTATED, user)
-    video_path = os.path.join(dirname, video + '.csv')
+    dst_class = video.split(os.sep)[0]
+    dst_dir = os.path.join(dirname, dst_class)
+    if not os.path.exists(dst_dir):
+        os.mkdir(dst_dir)
+    video_path = os.path.join(dst_dir, video.split(os.sep)[1] + '.csv')
     df = pd.DataFrame(data=data, columns=['Start Minutes', 'Start Seconds', 'End Minutes', 'End Seconds'])
     df.to_csv(video_path, index=False)
 
