@@ -8,6 +8,15 @@ $(document).ready(function(){
     var end_minute = $('.end-minute').val();
     var end_second = $('.end-second').val();
 
+    if(start_minute=='' && start_second=='' || end_minute=='' && end_second=='' ){
+        console.log("Values are Null");
+        return;
+    }
+    $('.start-minute').val('');
+    $('.start-second').val('');
+    $('.end-minute').val('');
+    $('.end-second').val('');
+
     req = $.ajax({
         url: '/annotate',
         type: 'POST',
@@ -15,8 +24,8 @@ $(document).ready(function(){
     });
     req.done(function(){
 
-        var text = "<span  id='annotation_"+ index +"'>" 
-                    + start_minute + ":" + start_second + "-" + end_minute + ":"+ end_second 
+        var text = "<span  id='annotation_"+ index +"'>"
+                    + start_minute + ":" + start_second + "-" + end_minute + ":"+ end_second
                     + "</span><br>";
                     // +"<i  class='fa fa-window-close' aria-hidden='true' onclick='deleteData("+index+")'></i> <br>";
         already.push(text);

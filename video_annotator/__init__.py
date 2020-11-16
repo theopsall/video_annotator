@@ -1,6 +1,6 @@
 import os
 from flask_socketio import SocketIO
-from flask import Flask, render_template, request, url_for, redirect, flash, session
+from flask import Flask, render_template, request, url_for, redirect, flash, session,Markup
 from video_annotator.config import VIDEOS, ANNOTATED
 from video_annotator import utils
 
@@ -69,8 +69,19 @@ def annotate():
 @app.route('/finish', methods=['GET', 'POST'])
 def finish():
     if request.method == 'POST':
+        if "data" not in session:
+            message = Markup("<p class='alert alert-danger' role='alert'>\
+            Video: {0} <br>failed to be annotated! <br> You have not set timestamps\
+            </p>".format(session['video']))
+            return render_template('profile.html',
+                                title="Annotator's Profile",
+                                nickname=session["nickname"],
+                                num_videos=utils.num_videos(),
+                                already_annotated=utils.num_annotated(session["nickname"]),
+                                message = message)
         # save annotations
-        message = 'Congrats you have successfully Annotated {0}'.format(session["video"])
+        message = Markup("<p class='alert alert-success' role='alert'>\
+            Congrats you have successfully Annotated {0}</p>".format(session["video"]))
         utils.add_annotation(session['nickname'], session['video'], session['data'] )
         utils.add_video(session['nickname'], session['video'])
 
