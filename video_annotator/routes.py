@@ -19,9 +19,8 @@ def home():
 
     return render_template("index.html", title='Home VAT')
 
-@app.route('/annotate', methods=['GET', 'POST'])
-def annotate():
-
+@app.route('/__update__', methods=['GET', 'POST'])
+def __update__():
     if "nickname" in session:
         if (len(utils.get_videos()) > len(utils.annotated(session['nickname']))):
             diff = utils.get_difference(session['nickname'])
@@ -31,18 +30,27 @@ def annotate():
             #video = os.path.join(*video)
             video_category = video.split(os.sep)[0]
             video_name = video.split(os.sep)[-1]
+            session['video_category'] = video_category
+            session['video_name'] = video_name
+            session['video_url'] = video
             session['video'] = "{0}{1}{2}".format(video_category,os.sep,video_name)
+            session.pop("data", None)
+        else:
+            return redirect("/profile")
+    return redirect("/annotate")
+    
+@app.route('/annotate', methods=['GET', 'POST'])
+def annotate():
 
+
+    if "nickname" in session:
             start_minute = request.form.get('start_minute')
             start_second = request.form.get('start_second')
             end_minute = request.form.get('end_minute')
             end_second = request.form.get('end_second')
-
-            is_reloaded = request.form.get("is_reloaded")
-
+            is_reloaded = request.form.get('is_reloaded')
             if is_reloaded:
                 session.pop("data", None)
-
             if start_minute is not None and start_second is not None and end_minute is not None and end_second is not None:
 
                 if "data" in session:
@@ -55,11 +63,10 @@ def annotate():
             return render_template('annotation.html',
                                    title="Video Annotator Tool",
                                    nickname=session['nickname'],
-                                   category=video_category,
-                                   video_name=video_name,
-                                   filename='Videos' + os.sep + video)
-        else:
-            return redirect("/profile")
+                                   category=session['video_category'],
+                                   video_name=session['video_name'],
+                                   filename='Videos' + os.sep + session['video_url'])
+
     else:
         return render_template("index.html", title='Home VAT')
 

@@ -33,10 +33,10 @@ $(document).ready(function(){
     });
     });
 });
+
 if (performance.type == performance.TYPE_RELOAD) {
     console.log( "This page is reloaded" );
     already = [];
-    index = 0;
     req = $.ajax({
     url: '/annotate',
     type: 'POST',
