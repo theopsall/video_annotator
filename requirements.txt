@@ -1,6 +1,6 @@
 bidict==0.21.2
 click==7.1.2
-Flask==1.1.2
+Flask==2.2.5
 Flask-SocketIO==5.1.0
 itsdangerous==1.1.0
 Jinja2==3.0.1
